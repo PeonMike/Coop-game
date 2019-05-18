@@ -1,0 +1,8 @@
+*/Build
+*/Binaries
+*/DerivedDataCashe
+*/Intermediate
+*/Saved
+*_BuiltData.uasset
+*.db
+*.vs
