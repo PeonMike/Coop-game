@@ -62,7 +62,7 @@ protected:
 	USHealthComponent* HealthComp;
 
 	UFUNCTION()
-	void OnHealthChanged(USHealthComponent* HealthComp, float Health, float HealthDelta,
+	void OnHealthChanged(USHealthComponent* OwningHealthComp, float Health, float HealthDelta,
 		const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser);
 
 	UPROPERTY(BlueprintReadOnly, Category ="Player")
