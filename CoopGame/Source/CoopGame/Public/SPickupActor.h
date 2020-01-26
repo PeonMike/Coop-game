@@ -1,5 +1,3 @@
-
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -14,8 +12,8 @@ UCLASS()
 class COOPGAME_API ASPickupActor : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ASPickupActor();
 
@@ -24,26 +22,26 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	USphereComponent* SphereComp;
+		USphereComponent* SphereComp;
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
-	UDecalComponent* DecalComp;
+		UDecalComponent* DecalComp;
 
-	UPROPERTY(EditInstanceOnly, Category = "PickupActor")
+	UPROPERTY(EditDefaultsOnly, Category = "PickupActor")
 	TSubclassOf<ASPowerupActor> PowerUpClass;
 
 	ASPowerupActor* PowerUpInstance;
 
-	UPROPERTY(EditInstanceOnly, Category = "PickupActor")
-	float CooldownDuration;
+	UPROPERTY(EditDefaultsOnly, Category = "PickupActor")
+		float CooldownDuration;
 
 	FTimerHandle TimerHandle_RespawnTimer;
 
 	void Respawn();
 
-public:	
+public:
 
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override;
 
-	
+
 };

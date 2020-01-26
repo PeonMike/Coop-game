@@ -1,5 +1,3 @@
-
-
 #include "SPickupActor.h"
 #include "Components/SphereComponent.h"
 #include "Components/DecalComponent.h"
@@ -28,7 +26,7 @@ ASPickupActor::ASPickupActor()
 void ASPickupActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	if (Role == ROLE_Authority)
 	{
 		Respawn();
@@ -64,3 +62,4 @@ void ASPickupActor::NotifyActorBeginOverlap(AActor* OtherActor)
 		GetWorldTimerManager().SetTimer(TimerHandle_RespawnTimer, this, &ASPickupActor::Respawn, CooldownDuration);
 	}
 }
+
