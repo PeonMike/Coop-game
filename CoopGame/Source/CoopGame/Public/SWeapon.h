@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+
 
 #pragma once
 
@@ -10,9 +10,7 @@ class USkeletalMeshComponent;
 class UDamageType;
 class UParticleSystem;
 
-
-
-// Contsins information of a single hitscan weapon line trace
+// Contains information of a single hitscan weapon linetrace
 USTRUCT()
 struct FHitScanTrace
 {
@@ -25,7 +23,6 @@ public:
 
 	UPROPERTY()
 	FVector_NetQuantize TraceTo;
-	
 };
 
 
@@ -40,37 +37,17 @@ public:
 
 protected:
 
+	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
+	USkeletalMeshComponent* MeshComp;
+
 	void PlayFireEffects(FVector TraceEnd);
 
 	void PlayImpactEffects(EPhysicalSurface SurfaceType, FVector ImpactPoint);
 
-	void Fire();
-
-	virtual void BeginPlay() override;
-
-	float LastFiredTime;
-
-	float TimeBetweenShots;
-
-
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerFire();
-
-	/*RPM - Bullets per minute fired by weapon*/
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	float RateOfFier;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	float BaseDamage;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
-	USkeletalMeshComponent* MeshComp;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category ="Weapon")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	TSubclassOf<UDamageType> DamageType;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<UCameraShake> FireCamShake;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	FName MuzzleSocketName;
@@ -87,9 +64,34 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	UParticleSystem* FleshImpactEffect;
 
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	UParticleSystem* TracerEffect;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<UCameraShake> FireCamShake;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float BaseDamage;
+
+	void Fire();
+
+	UFUNCTION(Server, Reliable, WithValidation)
+	void ServerFire();
+
+	FTimerHandle TimerHandle_TimeBetweenShots;
+
+	float LastFireTime;
+
+	/* RPM - Bullets per minute fired by weapon */
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float RateOfFire;
+
+	/* Bullet Spread in Degrees */
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon", meta = (ClampMin=0.0f))
+	float BulletSpread;
+	
+	// Derived from RateOfFire
+	float TimeBetweenShots;
 
 	UPROPERTY(ReplicatedUsing=OnRep_HitScanTrace)
 	FHitScanTrace HitScanTrace;
@@ -97,12 +99,10 @@ protected:
 	UFUNCTION()
 	void OnRep_HitScanTrace();
 
-	FTimerHandle TimerHandle_TimeBetweenShots;
-
 public:	
 
 	void StartFire();
 
 	void StopFire();
-
+	
 };
