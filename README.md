@@ -1,4 +1,4 @@
-# Coop-game
+# Co-op-game
 
 So how is it all works anyway?
 
